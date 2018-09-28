@@ -25,11 +25,6 @@ class CurrencyConverter:
 
 converter = CurrencyConverter("http://data.fixer.io/api/latest?access_key=4202c616ed8a0df8ee176544488d5560")
 
-
-#vAmount = int(input("Enter an amount"))
-#vFromCurrency = input("Enter the currency of this amount")
-#vToCurrency = input("Enter a currency to change this to")
-
 r = sr.Recognizer()
 with sr.Microphone() as source:
     print("Say something!")
