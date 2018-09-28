@@ -52,6 +52,5 @@ tts = gTTS(text=str(vFinal), lang='en')
 tts.save("pcvoice.mp3")
 os.system("start pcvoice.mp3")
 
-break
 
                             
