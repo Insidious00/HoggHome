@@ -27,7 +27,16 @@ vAmount = int(input("Enter an amount"))
 vFromCurrency = input("Enter the currency of this amount")
 vToCurrency = input("Enter a currency to change this to")
 
-print(converter.convert(vAmount, vFromCurrency, vToCurrency))
+vFinal = (converter.convert(vAmount, vFromCurrency, vToCurrency))
+print(vFinal)
+
+vSay = (vAmount, " in ", vFromCurrency, " is equal to ", vFinal, " in ", vToCurrency)
+vSay = str(vSay)
+
+tts = gTTS(text=str(vFinal), lang='en')
+tts.save("pcvoice.mp3")
+os.system("start pcvoice.mp3")
+
 
 
 
