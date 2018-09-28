@@ -29,7 +29,7 @@ r = sr.Recognizer()
 with sr.Microphone() as source:
     print("Say something!")
     audio = r.listen(source,timeout=3,phrase_time_limit=15)
-
+    
 try:
     print("Transcription: " + r.recognize_google(audio))
 except sr.UnknownValueError:
@@ -41,8 +41,8 @@ vAudio = r.recognize_google(audio)
 vList = vAudio.split(" ")
 
 Var1 = int(vList[3])
-Var2 = str(vList[4])
-Var3 = str(vList[6])
+Var2 = str(vList[4].upper())
+Var3 = str(vList[6].upper())
 
 
 vFinal = (converter.convert(Var1, Var2, Var3))
