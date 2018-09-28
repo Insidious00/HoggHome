@@ -53,7 +53,7 @@ Var3 = str(vList[6])
 vFinal = (converter.convert(Var1, Var2, Var3))
 print(vFinal)
 
-vSay = (Var1, " in ", Var2, " is equal to ", vFinal, " in ", Var3)
+vSay = (Var1, Var2, " is equal to ", vFinal, Var3)
 vSay = str(vSay)
 
 tts = gTTS(text=str(vFinal), lang='en')
