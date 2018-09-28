@@ -1,5 +1,6 @@
 #importing External Libraries
 
+import time
 import speech_recognition as sr
 from gtts import gTTS
 import os
@@ -25,23 +26,42 @@ class CurrencyConverter:
         if to_currency == "EUR":
             return initial_amount, from_currency, '=', amount, to_currency
         else:
-            return initial_amount, from_currency, '=', amount * self.rates[to_currency], to_currency
+            return initial_amount, from_currency, '=', round(amount * self.rates[to_currency],2), to_currency
 
 converter = CurrencyConverter("http://data.fixer.io/api/latest?access_key=4202c616ed8a0df8ee176544488d5560")
 
 #Voice Recognition
 
-r = sr.Recognizer()
-with sr.Microphone() as source:
-    print("Say something!")
-    audio = r.listen(source,timeout=3,phrase_time_limit=15)
-#voice transcription
-try:
-    print("Transcription: " + r.recognize_google(audio))
-except sr.UnknownValueError:
-    print("Audio is unintelligable")
-except sr.RequestError as e:
-    print("cannot obtain results; [0]", format(e))
+valid = False
+while valid == False:
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Say something!")
+        audio = r.listen(source,timeout=3,phrase_time_limit=15)
+    #voice transcription
+    try:
+        print("Transcription: " + r.recognize_google(audio))
+        vAudio = r.recognize_google(audio)
+        vList = vAudio.split(" ")
+        valid = True
+    except sr.UnknownValueError:
+        print("Audio is unintelligable")
+        tts = gTTS(text="Audio is unintelligable", lang='en')
+        tts.save("pcvoice.mp3")
+        os.system("start pcvoice.mp3")
+        time.sleep(5)
+        valid = False
+    except sr.RequestError as e:
+        print("cannot obtain results; [0]", format(e))
+        tts = gTTS(text="Cannot Obtain results", lang='en')
+        tts.save("pcvoice.mp3")
+        os.system("start pcvoice.mp3")
+        time.sleep(5)
+        valid = False
+
+if vAudio == "despacito":
+    print("Despacito")
+    exit()
 
 #Seperating data from string of (audio)
 
@@ -64,6 +84,10 @@ print(vFinal)
 tts = gTTS(text=str(vFinal), lang='en')
 tts.save("pcvoice.mp3")
 os.system("start pcvoice.mp3")
+
+time.sleep(20)
+
+exit()
 
 
                             
