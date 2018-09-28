@@ -16,7 +16,7 @@ print(vRates)
 
 valid = False
 while valid == False:
-    vChoice = str(input("Which currency would you like to covert GBP to? Euro or USD?"))
+    vChoice = str(input("Which currency would you like to convert GBP to? Euro or USD?"))
     if vChoice in vCurrency:
         print("You have chosen to convert GBP to " + vChoice)
         Valid = True
