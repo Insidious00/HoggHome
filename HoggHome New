@@ -5,6 +5,7 @@ import os
 import urllib.request
 import json
 from weather import Weather, Unit
+import sys
 
 
 
@@ -19,13 +20,16 @@ class CurrencyConverter:
         self.rates = data["rates"]
 
     def convert(self,amount, from_currency, to_currency):
-        initial_amount = amount
-        if from_currency != "EUR":
-            amount = amount / self.rates[from_currency]
-        if to_currency == "EUR":
-            return initial_amount, from_currency, '=', amount, to_currency
-        else:
-            return initial_amount, from_currency, '=', round(amount * self.rates[to_currency],2), to_currency
+        try:
+            initial_amount = amount
+            if from_currency != "EUR":
+                amount = amount / self.rates[from_currency]
+            if to_currency == "EUR":
+                return initial_amount, from_currency, '=', amount, to_currency
+            else:
+                return initial_amount, from_currency, '=', round(amount * self.rates[to_currency],2), to_currency
+        except:
+            return "fail"
 
 converter = CurrencyConverter("http://data.fixer.io/api/latest?access_key=4202c616ed8a0df8ee176544488d5560")
 
@@ -34,49 +38,76 @@ while valid == False:
     r = sr.Recognizer()
     with sr.Microphone() as source:
         print("Say something!")
-        audio = r.listen(source,timeout=1,phrase_time_limit=15)
+        audio = r.listen(source,phrase_time_limit=8)
+        if audio == (""):
+            valid = False
 #voice transcription
     try:
         vAudio = r.recognize_google(audio)
         vList = vAudio.split(" ")
         valid = True
     except sr.UnknownValueError:
-        print("Audio is unintelligable")
         tts = gTTS(text="Audio is unintelligable", lang='en')
         tts.save("pcvoice.mp3")
         os.system("start pcvoice.mp3")
-        time.sleep(5)
+        time.sleep(3)
+        os.startfile("F:\Python\hogghomestartup.wav")
+        time.sleep(1)
         valid = False
     except sr.RequestError as e:
         print("cannot obtain results; [0]", format(e))
+        valid = False
+        
+#Convert
 
 vList = vAudio.split(" ")
-
 if vList[0] == "convert":
     Var1 = int(vList[1])
     Var2 = str(vList[2].upper())
     Var3 = str(vList[4].upper())
     vFinal = (converter.convert(Var1, Var2, Var3))
-    print(vFinal)
-    tts = gTTS(text=str(vFinal), lang='en')
-    tts.save("pcvoice.mp3")
-    os.system("start pcvoice.mp3")
-#elif vAudio == "this is so sad":
-#    tts = gTTS(text="Tú, tú eres el imán y yo soy el metal", lang='es')
-#    tts.save("pcvoice.mp3")
-#    os.system("start pcvoice.mp3")
+    if vFinal != "fail":
+        print(vFinal)
+        tts = gTTS(text=str(vFinal), lang='en')
+        tts.save("pcvoice.mp3")
+        os.system("start pcvoice.mp3")
+        time.sleep(7)
+        os.system(r'"F:\Python\activate test.py"')
+    elif vFinal == "fail":
+        os.system(r'"F:\Python\activate test.py"')
+        exit()
+        
+
+#Despacito
+elif vAudio == "this is so sad":
+    os.startfile("F:\Python\Luis Fonsi - Despacito ft. Daddy Yankee (64  kbps).mp3")
+
+#Time
+    
 elif vAudio == "what time is it":
     vTime = (time.strftime("%H:%M"))
     print(vTime)
     tts = gTTS(text=vTime, lang='en')
     tts.save("pcvoice.mp3")
     os.system("start pcvoice.mp3")
+    time.sleep(2)
+    os.system(r'"F:\Python\activate test.py"')
+    exit()
+
+#Date
+    
 elif vAudio == "what date is it":
     vDate = time.strftime("%y/%m/%d")
     print(vDate)
     tts = gTTS(text=vDate, lang='en')
     tts.save("pcvoice.mp3")
     os.system("start pcvoice.mp3")
+    time.sleep(3)
+    os.system(r'"F:\Python\activate test.py"')
+    exit()
+
+#Weather
+    
 elif vList[0] == "what" and vList[1] == "is" and vList[2] == "the" and vList[3] == "weather" and vList[4] == "in":
     vLocation = vList[5]
     weather = Weather(unit=Unit.CELSIUS)
@@ -87,6 +118,12 @@ elif vList[0] == "what" and vList[1] == "is" and vList[2] == "the" and vList[3] 
     tts = gTTS(text=vCondition, lang='en')
     tts.save("pcvoice.mp3")
     os.system("start pcvoice.mp3")
+    time.sleep(3)
+    os.system(r'"F:\Python\activate test.py"')
+    exit()
+
+#Weather cont
+    
 elif vList[0] == "what" and vList[1] == "is" and vList[2] == "the" and vList[3] == "weather" and vList[4] == "like":
     vLocation = vList[6]
     weather = Weather(unit=Unit.CELSIUS)
@@ -97,5 +134,21 @@ elif vList[0] == "what" and vList[1] == "is" and vList[2] == "the" and vList[3] 
     tts = gTTS(text=vCondition, lang='en')
     tts.save("pcvoice.mp3")
     os.system("start pcvoice.mp3")
+    os.system(r'"F:\Python\activate test.py"')
+    time.sleep(2)
+    exit()
+                  
+#Stop
+
+elif vAudio == "stop":
+    os.system(r'"F:\Python\activate test.py"')
+    exit()
+
+else:
+    tts = gTTS(text="I did not catch that", lang='en')
+    tts.save("pcvoice.mp3")
+    os.system("start pcvoice.mp3")
+    time.sleep(2)
+    os.system(r'"F:\Python\activate test.py"')
     
                     
