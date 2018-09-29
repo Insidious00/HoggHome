@@ -113,10 +113,13 @@ if len(vList) == 5:
         time.sleep(1)
         exit()
         
-#Despacito
+#Despacito/ Fortnite
         
 elif vAudio == "this is so sad":
     os.startfile("F:\Python\Luis Fonsi - Despacito ft. Daddy Yankee (64  kbps).mp3")
+
+elif vAudio == "default":
+    os.startfile("F:\Python\Fortnite Default Dance Ear Rape.mp3")
 
 #Time
     
