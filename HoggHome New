@@ -61,24 +61,60 @@ while valid == False:
 #Convert
 
 vList = vAudio.split(" ")
-if vList[0] == "convert":
-    Var1 = int(vList[1])
-    Var2 = str(vList[2].upper())
-    Var3 = str(vList[4].upper())
-    vFinal = (converter.convert(Var1, Var2, Var3))
-    if vFinal != "fail":
-        print(vFinal)
-        tts = gTTS(text=str(vFinal), lang='en')
+if len(vList) == 5:
+    if vList[0] == "convert":
+        if vList[1].isdigit():
+            if len(vList[2]) == 3:
+                if len(vList[3]) == 3:
+                    Var1 = int(vList[1])
+                    Var2 = str(vList[2].upper())
+                    Var3 = str(vList[4].upper())
+                    vFinal = (converter.convert(Var1, Var2, Var3))
+                    if vFinal != "fail":
+                        print(vFinal)
+                        tts = gTTS(text=str(vFinal), lang='en')
+                        tts.save("pcvoice.mp3")
+                        os.system("start pcvoice.mp3")
+                        time.sleep(7)
+                        os.system(r'"F:\Python\activate test.py"')
+                    elif vFinal == "fail":
+                        tts = gTTS(text="I did not catch that", lang='en')
+                        tts.save("pcvoice.mp3")
+                        os.system("start pcvoice.mp3")
+                        time.sleep(1)
+                        os.system(r'"F:\Python\activate test.py"')
+                        exit()
+                else:
+                    os.system(r'"F:\Python\activate test.py"')
+                    tts = gTTS(text="I did not catch that", lang='en')
+                    tts.save("pcvoice.mp3")
+                    os.system("start pcvoice.mp3")
+                    time.sleep(1)
+                    exit()
+            else:
+                os.system(r'"F:\Python\activate test.py"')
+                tts = gTTS(text="I did not catch that", lang='en')
+                tts.save("pcvoice.mp3")
+                os.system("start pcvoice.mp3")
+                time.sleep(1)
+                exit()
+        else:
+            os.system(r'"F:\Python\activate test.py"')
+            tts = gTTS(text="I did not catch that", lang='en')
+            tts.save("pcvoice.mp3")
+            os.system("start pcvoice.mp3")
+            time.sleep(1)
+            exit()
+    else:
+        os.system(r'"F:\Python\activate test.py"')
+        tts = gTTS(text="I did not catch that", lang='en')
         tts.save("pcvoice.mp3")
         os.system("start pcvoice.mp3")
-        time.sleep(7)
-        os.system(r'"F:\Python\activate test.py"')
-    elif vFinal == "fail":
-        os.system(r'"F:\Python\activate test.py"')
+        time.sleep(1)
         exit()
         
-
 #Despacito
+        
 elif vAudio == "this is so sad":
     os.startfile("F:\Python\Luis Fonsi - Despacito ft. Daddy Yankee (64  kbps).mp3")
 
