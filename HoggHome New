@@ -144,6 +144,8 @@ elif vAudio == "stop":
     os.system(r'"F:\Python\activate test.py"')
     exit()
 
+#Unrecognized
+    
 else:
     tts = gTTS(text="I did not catch that", lang='en')
     tts.save("pcvoice.mp3")
