@@ -1,13 +1,10 @@
-#importing External Libraries
-
 import time
 import speech_recognition as sr
 from gtts import gTTS
 import os
 import urllib.request
 import json
-
-#Defining the functions for conversion
+from weather import Weather, Unit
 
 class CurrencyConverter:
 
@@ -30,15 +27,13 @@ class CurrencyConverter:
 
 converter = CurrencyConverter("http://data.fixer.io/api/latest?access_key=4202c616ed8a0df8ee176544488d5560")
 
-#Voice Recognition
-
 valid = False
 while valid == False:
     r = sr.Recognizer()
     with sr.Microphone() as source:
         print("Say something!")
-        audio = r.listen(source,timeout=3,phrase_time_limit=15)
-    #voice transcription
+        audio = r.listen(source,timeout=2,phrase_time_limit=15)
+#voice transcription
     try:
         print("Transcription: " + r.recognize_google(audio))
         vAudio = r.recognize_google(audio)
@@ -53,41 +48,44 @@ while valid == False:
         valid = False
     except sr.RequestError as e:
         print("cannot obtain results; [0]", format(e))
-        tts = gTTS(text="Cannot Obtain results", lang='en')
-        tts.save("pcvoice.mp3")
-        os.system("start pcvoice.mp3")
-        time.sleep(5)
-        valid = False
 
-if vAudio == "despacito":
-    print("Despacito")
-    exit()
-
-#Seperating data from string of (audio)
-
-vAudio = r.recognize_google(audio)
 vList = vAudio.split(" ")
 
-#setting Data from (Audio) to variables
+if vList[0] == "convert":
+    Var1 = int(vList[1])
+    Var2 = str(vList[2].upper())
+    Var3 = str(vList[4].upper())
+    vFinal = (converter.convert(Var1, Var2, Var3))
+    print(vFinal)
+    tts = gTTS(text=str(vFinal), lang='en')
+    tts.save("pcvoice.mp3")
+    os.system("start pcvoice.mp3")
+#elif vAudio == "this is so sad":
+#    tts = gTTS(text="Tú, tú eres el imán y yo soy el metal", lang='es')
+#    tts.save("pcvoice.mp3")
+#    os.system("start pcvoice.mp3")
+elif vAudio == "what time is it":
+    vTime = (time.strftime("%H:%M"))
+    print(vTime)
+    tts = gTTS(text=vTime, lang='en')
+    tts.save("pcvoice.mp3")
+    os.system("start pcvoice.mp3")
+elif vAudio == "what date is it":
+    vDate = time.strftime("%y/%m/%d")
+    print(vDate)
+    tts = gTTS(text=vDate, lang='en')
+    tts.save("pcvoice.mp3")
+    os.system("start pcvoice.mp3")
+elif vList[0] == "what" and vList[1] == "is" and vList[2] == "the" and vList[3] == "weather" and vList[4] == "in":
+    vLocation = vList[5]
+    weather = Weather(unit=Unit.CELSIUS)
+    location = weather.lookup_by_location(vLocation)
+    condition = location.condition
+    print(condition.text)
+    vCondition = (condition.text)
+    tts = gTTS(text=vCondition, lang='en')
+    tts.save("pcvoice.mp3")
+    os.system("start pcvoice.mp3")
 
-Var1 = int(vList[3])
-Var2 = str(vList[4].upper())
-Var3 = str(vList[6].upper())
-
-#Converting variables in functions
-
-vFinal = (converter.convert(Var1, Var2, Var3))
-print(vFinal)
-
-#Creating/ executing MP3 File
-
-tts = gTTS(text=str(vFinal), lang='en')
-tts.save("pcvoice.mp3")
-os.system("start pcvoice.mp3")
-
-time.sleep(15)
-
-exit()
-
-
-                            
+    
+                    
