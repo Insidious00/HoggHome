@@ -36,7 +36,7 @@ while valid == False:
         print("Say something!")
         audio = r.listen(source,timeout=1,phrase_time_limit=15)
 #voice transcription
-    try:----
+    try:
         vAudio = r.recognize_google(audio)
         vList = vAudio.split(" ")
         valid = True
