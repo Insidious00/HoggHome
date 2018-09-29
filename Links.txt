@@ -2,3 +2,4 @@ https://pypi.org/project/SpeechRecognition/
 https://pypi.org/project/gTTS/
 https://pypi.org/project/weather-api/
 https://pypi.org/project/requests/
+https://thepi.io/how-to-run-x86-programs-on-the-raspberry-pi/
