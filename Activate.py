@@ -16,7 +16,7 @@ while valid == False:
                 if vList2[0] == ("OK" or "OKAY"):
                     if vList2[1] == "HOMEWORK":
                         os.startfile("F:\Python\hogghomestartup.wav")
-                        os.startfile("F:\Python\HoggHomeV1.py")
+                        os.startfile("F:\Python\HoggHome Format V1.py")
                         valid = True
                     else:
                         valid = False
